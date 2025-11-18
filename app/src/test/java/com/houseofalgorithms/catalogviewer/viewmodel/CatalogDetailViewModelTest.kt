@@ -10,7 +10,6 @@ import org.junit.Test
  * Unit tests for CatalogDetailViewModel logic.
  */
 class CatalogDetailViewModelTest {
-    private val testItem = CatalogItem("bk_001", "The Blue Fox", "Fiction", 12.99, 4.4)
 
     @Test
     fun `item ID extraction from route`() {
