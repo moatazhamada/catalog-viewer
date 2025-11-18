@@ -103,3 +103,8 @@ Thumbs.db
 *.swp
 *.bak
 *~
+
+# Documentation (allow markdown, but keep original docs)
+# Uncomment if you want to exclude docx files:
+# *.docx
+# *.doc
