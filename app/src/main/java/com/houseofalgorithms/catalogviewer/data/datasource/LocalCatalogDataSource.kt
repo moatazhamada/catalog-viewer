@@ -1,6 +1,7 @@
 package com.houseofalgorithms.catalogviewer.data.datasource
 
 import android.content.Context
+import com.houseofalgorithms.catalogviewer.R
 import com.houseofalgorithms.catalogviewer.data.model.CatalogResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,7 +27,7 @@ class LocalCatalogDataSource(
             try {
                 val jsonString =
                     context.resources
-                        .openRawResource(com.houseofalgorithms.catalogviewer.R.raw.catalog)
+                        .openRawResource(R.raw.catalog)
                         .bufferedReader()
                         .use { it.readText() }
 
