@@ -1,0 +1,36 @@
+build:
+  maxIssues: 10
+  weights:
+    complexity: 2
+    LongParameterList: 1
+    style: 1
+    comments: 1
+
+complexity:
+  LongMethod:
+    threshold: 50
+  LongParameterList:
+    threshold: 6
+  TooManyFunctions:
+    threshold: 20
+
+style:
+  MagicNumber:
+    ignoreNumbers: ['-1', '0', '1', '2']
+  MaxLineLength:
+    maxLineLength: 120
+  NewLineAtEndOfFile:
+    enabled: true
+  PackageNaming:
+    enabled: false
+
+potential-bugs:
+  UnreachableCode:
+    enabled: true
+  UnusedPrivateMember:
+    enabled: true
+
+performance:
+  SpreadOperator:
+    enabled: true
+
