@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 
 /**
  * Data layer implementation of domain favorites repository interface.
@@ -29,8 +30,10 @@ class FavoritesDataSource(private val context: Context) : FavoritesRepository {
             .catch { exception ->
                 // Handle corrupted DataStore file
                 if (exception is IOException) {
+                    Timber.w(exception, "DataStore corrupted, using empty preferences")
                     emit(androidx.datastore.preferences.core.emptyPreferences())
                 } else {
+                    Timber.e(exception, "Unexpected error reading favorites")
                     throw exception
                 }
             }
@@ -54,6 +57,7 @@ class FavoritesDataSource(private val context: Context) : FavoritesRepository {
             }
             result
         } catch (e: IOException) {
+            Timber.w(e, "DataStore IO error while toggling favorite: $id")
             // If DataStore is corrupted, clear it and retry
             try {
                 context.deleteSharedPreferences("favorites.preferences_pb")
@@ -66,6 +70,7 @@ class FavoritesDataSource(private val context: Context) : FavoritesRepository {
                 }
                 result
             } catch (retryException: Exception) {
+                Timber.e(retryException, "Failed to recover from DataStore corruption")
                 false
             }
         }
@@ -76,8 +81,10 @@ class FavoritesDataSource(private val context: Context) : FavoritesRepository {
             dataStore.data
                 .catch { exception ->
                     if (exception is IOException) {
+                        Timber.w(exception, "DataStore corrupted while checking favorite: $id")
                         emit(androidx.datastore.preferences.core.emptyPreferences())
                     } else {
+                        Timber.e(exception, "Unexpected error checking favorite: $id")
                         throw exception
                     }
                 }
@@ -86,6 +93,7 @@ class FavoritesDataSource(private val context: Context) : FavoritesRepository {
                 }
                 .first()
         } catch (e: Exception) {
+            Timber.e(e, "Error checking if item is favorite: $id")
             false
         }
     }
