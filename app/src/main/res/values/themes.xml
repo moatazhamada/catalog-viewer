@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CatalogViewer" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Set window background to dark color to prevent white flash in dark mode -->
+        <item name="android:windowBackground">@android:color/black</item>
+        <!-- Ensure status bar and navigation bar are transparent for edge-to-edge -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
