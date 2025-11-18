@@ -1,6 +1,3 @@
-import java.util.Properties
-import java.io.FileInputStream
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -12,15 +9,17 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-// Load keystore properties if file exists
-
-val keystorePropertiesFile = rootProject.file("keystore.properties")
-val keystoreProperties = Properties()
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-}
-
 android {
+    signingConfigs {
+        // TODO: This is NOT a real production keystore - it's only for testing release builds
+        // For production, use a secure keystore with strong passwords stored securely
+        create("release") {
+            storeFile = file("/Users/mm/Main/Projects/Android/CatalogViewer/app/keystore/release.jks")
+            storePassword = "catalogviewer123"
+            keyPassword = "catalogviewer123"
+            keyAlias = "catalog-viewer"
+        }
+    }
     namespace = "com.houseofalgorithms.catalogviewer"
     compileSdk {
         version = release(36)
@@ -36,17 +35,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        if (keystorePropertiesFile.exists()) {
-            create("release") {
-                storeFile = file(keystoreProperties["storeFile"] as String)
-                storePassword = keystoreProperties["storePassword"] as String
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-            }
-        }
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -54,9 +42,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            if (keystorePropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("release")
-            }
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
