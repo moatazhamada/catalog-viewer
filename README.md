@@ -28,7 +28,11 @@ The core requirements (list view, search, detail view, favorites with persistenc
 
 ### Option 1: Using Gradle (Command Line)
 ```bash
+# Build and install the app
 ./gradlew installDebug
+
+# Or build and run tests
+./gradlew test
 ```
 
 ### Option 2: Using Android Studio
